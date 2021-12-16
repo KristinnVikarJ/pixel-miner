@@ -11,3 +11,17 @@ C:\Users\Kristinn\source\repos\ConsoleApp2\ConsoleApp2\obj\Release\netcoreapp3.1
 C:\Users\Kristinn\source\repos\ConsoleApp2\ConsoleApp2\obj\Release\netcoreapp3.1\ConsoleApp2.dll
 C:\Users\Kristinn\source\repos\ConsoleApp2\ConsoleApp2\obj\Release\netcoreapp3.1\ConsoleApp2.pdb
 C:\Users\Kristinn\source\repos\ConsoleApp2\ConsoleApp2\obj\Release\netcoreapp3.1\ConsoleApp2.genruntimeconfig.cache
+C:\Users\Kristinn\Desktop\PAINT\Miner\ConsoleApp2\bin\Release\netcoreapp3.1\ConsoleApp2.exe
+C:\Users\Kristinn\Desktop\PAINT\Miner\ConsoleApp2\bin\Release\netcoreapp3.1\ConsoleApp2.deps.json
+C:\Users\Kristinn\Desktop\PAINT\Miner\ConsoleApp2\bin\Release\netcoreapp3.1\ConsoleApp2.runtimeconfig.json
+C:\Users\Kristinn\Desktop\PAINT\Miner\ConsoleApp2\bin\Release\netcoreapp3.1\ConsoleApp2.runtimeconfig.dev.json
+C:\Users\Kristinn\Desktop\PAINT\Miner\ConsoleApp2\bin\Release\netcoreapp3.1\ConsoleApp2.dll
+C:\Users\Kristinn\Desktop\PAINT\Miner\ConsoleApp2\bin\Release\netcoreapp3.1\ConsoleApp2.pdb
+C:\Users\Kristinn\Desktop\PAINT\Miner\ConsoleApp2\obj\Release\netcoreapp3.1\ConsoleApp2.csproj.AssemblyReference.cache
+C:\Users\Kristinn\Desktop\PAINT\Miner\ConsoleApp2\obj\Release\netcoreapp3.1\ConsoleApp2.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Kristinn\Desktop\PAINT\Miner\ConsoleApp2\obj\Release\netcoreapp3.1\ConsoleApp2.AssemblyInfoInputs.cache
+C:\Users\Kristinn\Desktop\PAINT\Miner\ConsoleApp2\obj\Release\netcoreapp3.1\ConsoleApp2.AssemblyInfo.cs
+C:\Users\Kristinn\Desktop\PAINT\Miner\ConsoleApp2\obj\Release\netcoreapp3.1\ConsoleApp2.csproj.CoreCompileInputs.cache
+C:\Users\Kristinn\Desktop\PAINT\Miner\ConsoleApp2\obj\Release\netcoreapp3.1\ConsoleApp2.dll
+C:\Users\Kristinn\Desktop\PAINT\Miner\ConsoleApp2\obj\Release\netcoreapp3.1\ConsoleApp2.pdb
+C:\Users\Kristinn\Desktop\PAINT\Miner\ConsoleApp2\obj\Release\netcoreapp3.1\ConsoleApp2.genruntimeconfig.cache

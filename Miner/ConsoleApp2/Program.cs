@@ -98,7 +98,7 @@ namespace ConsoleApp2
                             salt = temp[3].Substring(0, 64),
                             target = target
                         });
-                        Thread.Sleep(150);
+                        Thread.Sleep(70);
                     }
                     catch { }
                 }
