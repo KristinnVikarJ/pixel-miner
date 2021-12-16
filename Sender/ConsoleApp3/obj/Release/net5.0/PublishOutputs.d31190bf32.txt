@@ -1,0 +1,5 @@
+C:\Users\Kristinn\source\repos\ConsoleApp3\ConsoleApp3\bin\Release\net5.0\publish\ConsoleApp3.exe
+C:\Users\Kristinn\source\repos\ConsoleApp3\ConsoleApp3\bin\Release\net5.0\publish\ConsoleApp3.dll
+C:\Users\Kristinn\source\repos\ConsoleApp3\ConsoleApp3\bin\Release\net5.0\publish\ConsoleApp3.deps.json
+C:\Users\Kristinn\source\repos\ConsoleApp3\ConsoleApp3\bin\Release\net5.0\publish\ConsoleApp3.runtimeconfig.json
+C:\Users\Kristinn\source\repos\ConsoleApp3\ConsoleApp3\bin\Release\net5.0\publish\ConsoleApp3.pdb

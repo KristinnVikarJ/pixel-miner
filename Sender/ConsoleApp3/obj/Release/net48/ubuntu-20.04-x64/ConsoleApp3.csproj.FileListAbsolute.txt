@@ -1,0 +1,11 @@
+C:\Users\Kristinn\Documents\Projects\ConsoleApp3\ConsoleApp3\bin\release\net48\ubuntu-20.04-x64\ConsoleApp3.exe.config
+C:\Users\Kristinn\Documents\Projects\ConsoleApp3\ConsoleApp3\bin\release\net48\ubuntu-20.04-x64\ConsoleApp3.exe
+C:\Users\Kristinn\Documents\Projects\ConsoleApp3\ConsoleApp3\bin\release\net48\ubuntu-20.04-x64\ConsoleApp3.pdb
+C:\Users\Kristinn\Documents\Projects\ConsoleApp3\ConsoleApp3\bin\release\net48\ubuntu-20.04-x64\Newtonsoft.Json.dll
+C:\Users\Kristinn\Documents\Projects\ConsoleApp3\ConsoleApp3\obj\release\net48\ubuntu-20.04-x64\ConsoleApp3.csprojAssemblyReference.cache
+C:\Users\Kristinn\Documents\Projects\ConsoleApp3\ConsoleApp3\obj\release\net48\ubuntu-20.04-x64\ConsoleApp3.AssemblyInfoInputs.cache
+C:\Users\Kristinn\Documents\Projects\ConsoleApp3\ConsoleApp3\obj\release\net48\ubuntu-20.04-x64\ConsoleApp3.AssemblyInfo.cs
+C:\Users\Kristinn\Documents\Projects\ConsoleApp3\ConsoleApp3\obj\release\net48\ubuntu-20.04-x64\ConsoleApp3.csproj.CoreCompileInputs.cache
+C:\Users\Kristinn\Documents\Projects\ConsoleApp3\ConsoleApp3\obj\release\net48\ubuntu-20.04-x64\ConsoleApp3.csproj.CopyComplete
+C:\Users\Kristinn\Documents\Projects\ConsoleApp3\ConsoleApp3\obj\release\net48\ubuntu-20.04-x64\ConsoleApp3.exe
+C:\Users\Kristinn\Documents\Projects\ConsoleApp3\ConsoleApp3\obj\release\net48\ubuntu-20.04-x64\ConsoleApp3.pdb
