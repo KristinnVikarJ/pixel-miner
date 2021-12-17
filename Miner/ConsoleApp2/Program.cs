@@ -4,6 +4,9 @@ using System.Collections.Concurrent;
 using System.Net.Http;
 using System.Threading;
 using System.Diagnostics;
+using Newtonsoft.Json;
+using System.IO;
+using System.Text;
 
 namespace ConsoleApp2
 {
@@ -43,32 +46,6 @@ namespace ConsoleApp2
             }
         }
 
-        public static void WorkerThread()
-        {
-            while (true)
-            {
-                if(!workQueue.IsEmpty && workQueue.TryDequeue(out WorkData data))
-                {
-                    Console.WriteLine(workQueue.Count);
-                    Process p = Process.Start("md5.exe", data.salt + " " + data.target);
-                    p.StartInfo.CreateNoWindow = true;
-                    p.StartInfo.UseShellExecute = false;
-                    p.StartInfo.RedirectStandardOutput = true;
-                    p.Start();
-                    string msg = p.StandardOutput.ReadToEnd();
-                    finishQueue.Enqueue(new FinishData()
-                    {
-                        pow = msg,
-                        session = data.session
-                    });
-                }
-                else
-                {
-                    Thread.Sleep(5);
-                }
-            }
-        }
-
         public static async void FetcherThread()
         {
             var httpClientHandler = new HttpClientHandler
@@ -81,26 +58,67 @@ namespace ConsoleApp2
             {
                 if (workQueue.Count < 20)
                 {
-                    var parameters = new Dictionary<string, string> { { "action", "get_work" } };
-                    var data2 = await c.PostAsync("http://challs.xmas.htsp.ro:3002/api", new FormUrlEncodedContent(parameters));
-                    string content = await data2.Content.ReadAsStringAsync();
-
-                    string[] temp = content.Split(' ');
-
                     try
                     {
-                        string session = ((string[])data2.Headers.GetValues("Set-Cookie"))[0];
-                        string target = temp[^1];
+                        var data2 = await c.GetAsync("https://piebot.xyz/ctf/pixels/getwork");
+                        string content = await data2.Content.ReadAsStringAsync();
+                        List<WorkData> retData = JsonConvert.DeserializeObject<List<WorkData>>(content);
 
-                        workQueue.Enqueue(new WorkData()
+                        if (File.Exists("input.txt"))
                         {
-                            session = session,
-                            salt = temp[3].Substring(0, 64),
-                            target = target
-                        });
-                        Thread.Sleep(70);
+                            File.Delete("input.txt");
+                        }
+
+                        if (File.Exists("outfile.txt"))
+                        {
+                            File.Delete("outfile.txt");
+                        }
+
+                        StreamWriter sw = new StreamWriter("input.txt");
+                        Dictionary<string, string> hashToSession = new Dictionary<string, string>();
+                        foreach (WorkData workData in retData)
+                        {
+                            sw.WriteLine(workData.salt + " " + workData.target);
+                            hashToSession[workData.target] = workData.session;
+                        }
+                        sw.Flush();
+                        sw.Close();
+
+                        Console.WriteLine(workQueue.Count);
+                        Process p = Process.Start("md5.exe", "input.txt");
+                        p.StartInfo.CreateNoWindow = true;
+                        p.StartInfo.UseShellExecute = false;
+                        p.StartInfo.RedirectStandardOutput = true;
+                        p.Start();
+                        p.WaitForExit();
+
+                        List<FinishData> sendData = new List<FinishData>();
+
+                        while (!File.Exists("outfile.txt"))
+                            Thread.Sleep(5);
+
+                        StreamReader sr = new StreamReader("outfile.txt");
+                        while (!sr.EndOfStream)
+                        {
+                            string lineIn = sr.ReadLine();
+                            string[] parts = lineIn.Split(" ");
+                            sendData.Add(new FinishData()
+                            {
+                                session = hashToSession[parts[0]],
+                                pow = parts[1]
+                            });
+                        }
+                        sr.Close();
+
+                        string Data = JsonConvert.SerializeObject(sendData);
+                        var cont = new StringContent(Data, Encoding.UTF8, "application/json");
+                        await c.PostAsync("https://piebot.xyz/ctf/pixels/bulkdata", cont);
+                        Thread.Sleep(20);
                     }
-                    catch { }
+                    catch
+                    {
+                        Thread.Sleep(100);
+                    }
                 }
                 else
                 {
@@ -114,14 +132,8 @@ namespace ConsoleApp2
             workQueue = new ConcurrentQueue<WorkData>();
             finishQueue = new ConcurrentQueue<FinishData>();
 
-            Thread workerThread = new Thread(WorkerThread);
-            workerThread.Start();
-
             Thread fetcherThread = new Thread(FetcherThread);
             fetcherThread.Start();
-
-            Thread senderThread = new Thread(SenderThread);
-            senderThread.Start();
 
             while (true)
             {

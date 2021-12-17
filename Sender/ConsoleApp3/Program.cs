@@ -3,6 +3,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography;
@@ -17,7 +18,7 @@ namespace ConsoleApp3
         struct SuperData
         {
             public string salt;
-            public byte[] target;
+            public string target;
             public string session;
         }
 
@@ -38,29 +39,50 @@ namespace ConsoleApp3
         static ConcurrentQueue<SuperData> queue;
         public static string URL;
 
-        static async Task<SuperData> GetWork()
+        public static async void WorkerThread(string proxy)
         {
-            HttpClient c = new HttpClient();
-            var parameters = new Dictionary<string, string> { { "action", "get_work" } };
-            var data = new FormUrlEncodedContent(parameters);
-            var data2 = await c.PostAsync("http://challs.xmas.htsp.ro:3002/api", data);
-            string content = await data2.Content.ReadAsStringAsync();
-
-            string[] temp = content.Split(' ');
-
-            string session = ((string[])data2.Headers.GetValues("Set-Cookie"))[0];
-            string target = temp[temp.Length-1];
-            byte[] bytes = new byte[target.Length / 2];
-
-            for (int i = 0; i < target.Length; i += 2)
-                bytes[i / 2] = Convert.ToByte(target.Substring(i, 2), 16);
-
-            return new SuperData()
+            WebProxy webProxy = new WebProxy(proxy);
+            var httpClientHandler = new HttpClientHandler
             {
-                session = session,
-                salt = temp[3].Substring(0, 64),
-                target = bytes
+                UseCookies = false,
+                AllowAutoRedirect = false,
+                Proxy = webProxy
             };
+            HttpClient c = new HttpClient(httpClientHandler);
+            HttpClient c1 = new HttpClient();
+            int FailCount = 0;
+            while (true)
+            {
+                Thread.Sleep(1);
+                try
+                {
+                    var parameters = new Dictionary<string, string> { { "action", "get_work" } };
+                    var data2 = await c.PostAsync("http://challs.xmas.htsp.ro:3002/api", new FormUrlEncodedContent(parameters));
+                    string content = await data2.Content.ReadAsStringAsync();
+
+                    string[] temp = content.Split(' ');
+
+                    string session = ((string[])data2.Headers.GetValues("Set-Cookie"))[0];
+                    string target = temp[^1];
+                    queue.Enqueue(new SuperData()
+                    {
+                        session = session,
+                        salt = temp[3].Substring(0, 64),
+                        target = target
+                    });
+                    Thread.Sleep(150);
+                    FailCount = 0;
+                }
+                catch
+                {
+                    FailCount += 1;
+                    if (FailCount >= 5)
+                    {
+                        Console.WriteLine("Killed Thread: " + proxy);
+                        Thread.Sleep(2000);
+                    }
+                }
+            }
         }
 
         public static string GetRandomHexColor()
@@ -71,69 +93,119 @@ namespace ConsoleApp3
 
         static ConcurrentQueue<DrawData> PostQueue = new ConcurrentQueue<DrawData>();
 
-        public static async void PosterThread()
+        public static async void PosterThread(string proxy)
         {
+            WebProxy webProxy = new WebProxy(proxy);
             var httpClientHandler = new HttpClientHandler
             {
                 UseCookies = false,
                 AllowAutoRedirect = false,
+                Proxy = webProxy
             };
             HttpClient c = new HttpClient(httpClientHandler);
             DrawData drawData = new DrawData();
             bool Finished = true;
+            int FailCount = 0;
             while (true)
             {
                 if (!Finished || (!PostQueue.IsEmpty && PostQueue.TryDequeue(out drawData)))
                 {
-                    Stopwatch stopwatch = new Stopwatch();
-                    stopwatch.Start();
-                    Console.WriteLine($"drawing at x:{drawData.pos.Y.ToString()} y:{drawData.pos.X.ToString()} color:{drawData.color}");
-                    var parameters = new Dictionary<string, string> { { "action", "paint" },
-                    { "team", "42" },
-                    { "x", drawData.pos.Y.ToString() },
-                    { "y", drawData.pos.X.ToString() },
-                    { "color", drawData.color },
-                    { "work", drawData.pow } 
-                    };
-                    var data = new FormUrlEncodedContent(parameters);
-                    data.Headers.Add("Cookie", drawData.session);
-                    var data2 = await c.PostAsync("http://challs.xmas.htsp.ro:3002/api", data);
-                    stopwatch.Stop();
-                    string p = await data2.Content.ReadAsStringAsync();
-                    if(p == "You haven't POSTed with action=get_work first!")
+                    try
                     {
-                        Console.WriteLine("session got invalidated, refreshing");
+                        Stopwatch stopwatch = new Stopwatch();
+                        stopwatch.Start();
+                        Console.WriteLine($"drawing at x:{drawData.pos.X.ToString()} y:{drawData.pos.Y.ToString()} color:{drawData.color}");
+                        var parameters = new Dictionary<string, string> { { "action", "paint" },
+                            { "team", "42" },
+                            { "x", drawData.pos.X.ToString() },
+                            { "y", drawData.pos.Y.ToString() },
+                            { "color", drawData.color },
+                            { "work", drawData.pow }
+                            };
+                        var data = new FormUrlEncodedContent(parameters);
+                        data.Headers.Add("Cookie", drawData.session);
+                        var data2 = await c.PostAsync("http://challs.xmas.htsp.ro:3002/api", data);
+                        stopwatch.Stop();
+                        string p = await data2.Content.ReadAsStringAsync();
+                        //Console.WriteLine(p);
+                        if (p == "You haven't POSTed with action=get_work first!")
+                        {
+                            Console.WriteLine("session got invalidated, refreshing");
+                            Finished = true;
+                            Thread.Sleep(50);
+                            continue;
+                        }
+                        if (data2.StatusCode != HttpStatusCode.OK)
+                        {
+                            FailCount += 1;
+                            Finished = false;
+                            Thread.Sleep(50);
+                            continue;
+                        }
+                        FailCount = 0;
+                    }
+                    catch {
                         Finished = true;
-                        Thread.Sleep(50);
-                        continue;
+                        FailCount += 1;
+                        if(FailCount >= 5)
+                        {
+                            Console.WriteLine("Killed Thread: " + proxy);
+                            Thread.Sleep(2000);
+                        }
                     }
-                    if (data2.StatusCode != HttpStatusCode.OK)
-                    {
-                        Finished = false;
-                        Thread.Sleep(50);
-                        continue;
-                    }
-                    Thread.Sleep(220);
                 }
+                Thread.Sleep(100);
             }
         }
 
         public static async void GetterThread()
         {
             HttpClient c = new HttpClient();
+            c.Timeout = TimeSpan.FromSeconds(1);
+            while (true)
+            {
+                Thread.Sleep(50);
+                if (PostQueue.Count < 30)
+                {
+                    try
+                    {
+                        var data2 = await c.GetAsync("https://piebot.xyz/ctf/pixels/get");
+                        string jsonData2 = await data2.Content.ReadAsStringAsync();
+                        if (jsonData2 == "{}")
+                            continue;
+                        foreach (DrawData i in JsonConvert.DeserializeObject<DrawData[]>(jsonData2))
+                        {
+                            PostQueue.Enqueue(i);
+                        }
+                    }
+                    catch
+                    {
+                        //do nothing lol
+                    }
+                }
+            }
+        }
+
+        static async void SenderThread()
+        {
+            HttpClient c = new HttpClient();
             while (true)
             {
                 Thread.Sleep(100);
-                if (PostQueue.Count < 30)
+                if(queue.Count > 100)
                 {
-                    var data2 = await c.GetAsync("https://piebot.xyz/ctf/pixels/get");
-                    string jsonData2 = await data2.Content.ReadAsStringAsync();
-                    if (jsonData2 == "{}")
-                        continue;
-                    foreach (DrawData i in JsonConvert.DeserializeObject<DrawData[]>(jsonData2))
+                    Console.WriteLine("Sending data");
+                    List<SuperData> array = new List<SuperData>();
+                    for (int i = 0; i < 100; i++)
                     {
-                        PostQueue.Enqueue(i);
+                        if(queue.TryDequeue(out SuperData data))
+                        {
+                            array.Add(data);
+                        }
                     }
+                    string Data = JsonConvert.SerializeObject(array);
+                    var content = new StringContent(Data, Encoding.UTF8, "application/json");
+                    await c.PostAsync("https://piebot.xyz/ctf/pixels/set", content);
                 }
             }
         }
@@ -141,11 +213,28 @@ namespace ConsoleApp3
         static void Main(string[] args)
         {
             queue = new ConcurrentQueue<SuperData>();
-            //PostQueue = new ConcurrentQueue<DrawData>();
             Thread t2 = new Thread(GetterThread);
             t2.Start();
-            Thread t3 = new Thread(PosterThread);
-            t3.Start();
+            Thread t = new Thread(SenderThread);
+            t.Start();
+
+            StreamReader sr = new StreamReader(args[0]);
+            int current = 0;
+            while (!sr.EndOfStream) {
+                string proxy = sr.ReadLine();
+                if (current % 2 == 0)
+                {
+                    Thread t3 = new Thread(() => PosterThread(proxy));
+                    t3.Start();
+                }
+                else
+                {
+                    Thread t3 = new Thread(() => WorkerThread(proxy));
+                    t3.Start();
+                }
+                current += 1;
+            }
+
             while (true)
             {
                 Thread.Sleep(200);

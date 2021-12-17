@@ -25,3 +25,5 @@ C:\Users\Kristinn\Desktop\PAINT\Miner\ConsoleApp2\obj\Release\netcoreapp3.1\Cons
 C:\Users\Kristinn\Desktop\PAINT\Miner\ConsoleApp2\obj\Release\netcoreapp3.1\ConsoleApp2.dll
 C:\Users\Kristinn\Desktop\PAINT\Miner\ConsoleApp2\obj\Release\netcoreapp3.1\ConsoleApp2.pdb
 C:\Users\Kristinn\Desktop\PAINT\Miner\ConsoleApp2\obj\Release\netcoreapp3.1\ConsoleApp2.genruntimeconfig.cache
+C:\Users\Kristinn\Desktop\PAINT\Miner\ConsoleApp2\bin\Release\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\Kristinn\Desktop\PAINT\Miner\ConsoleApp2\obj\Release\netcoreapp3.1\ConsoleApp2.csproj.CopyComplete

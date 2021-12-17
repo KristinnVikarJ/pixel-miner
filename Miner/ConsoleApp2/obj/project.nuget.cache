@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "xWqs+NgNCc302hfLl1yme27sOSz5d86QIzAA6dy7Axef3rm+Rd6XSWiKxiC6mFWX46TrSiQk/nW7h5DFwhZ1dg==",
+  "dgSpecHash": "pCv90H6TQW0W43cXF4j/0tGxgEyRRyru/PH3E2Y1miCT8xEr4g9Atuj2OXRsF0m1VeYgP8OcQDscOji2vDuPpA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Kristinn\\Desktop\\PAINT\\Miner\\ConsoleApp2\\ConsoleApp2.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Kristinn\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
   "logs": []
 }
