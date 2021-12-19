@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "tFb869L8CCblHStx47zketDuFfmgbZ7H5/2bKnFpRJ+ZHMwD8F1OsKM+gJHyZScOfoTIBTar3/TYdaVKOYRtHw==",
+  "dgSpecHash": "/geKnWFdvFwH2asFlV4+ZA7sW6mxbTz09w8EyKjGfScjvBuHvbRtfoYdxwPZlxVJxhBAhK/TvMMFuSy9+NzRaA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Kristinn\\Desktop\\PAINT\\Sender\\ConsoleApp3\\ConsoleApp3.csproj",
+  "projectFilePath": "C:\\Users\\Kristinn\\Desktop\\pixel-miner\\Sender\\ConsoleApp3\\ConsoleApp3.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Kristinn\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+    "C:\\Users\\Kristinn\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\Kristinn\\.nuget\\packages\\microsoft.netcore.app.host.linux-x64\\6.0.1\\microsoft.netcore.app.host.linux-x64.6.0.1.nupkg.sha512"
   ],
   "logs": []
 }
