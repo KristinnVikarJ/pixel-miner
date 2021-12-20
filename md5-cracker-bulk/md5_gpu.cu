@@ -241,7 +241,7 @@ __global__ void md5Crack(uint8_t wordLength, char* charsetWord, uint32_t hash01[
     for(uint32_t i = 0; i < threadWordLength; i++){
       threadTextWord[i] = sharedCharset[threadCharsetWord[i]];
     }
-    md5Hash((unsigned char*)threadTextWord, threadWordLength, &threadHash01, &threadHash02, &threadHash03, &threadHash04, salts[((index*4)+(offset*64))+0], salts[((index*4)+(offset*64))+1], salts[((index*4)+(offset*64))+2], salts[((index*4)+(offset*64))+3]);
+    md5Hash((unsigned char*)threadTextWord, threadWordLength, &threadHash01, &threadHash02, &threadHash03, &threadHash04, salts[((index+(offset*64))*4)+0], salts[((index+(offset*64))*4)+1], salts[((index+(offset*64))*4)+2], salts[((index+(offset*64))*4)+3]);
     //printf("probably illegal\n");
     if((threadHash01 & 0xFFFFFF) == hash01[index+(offset*64)]){
       memcpy(g_deviceCracked[index+(offset*64)], threadTextWord, threadWordLength);
@@ -274,11 +274,11 @@ int main(int argc, char* argv[]){
     std::cout << "Could not open file " << argv[1] << std::endl;
     return -1;
   }
-  char** original = (char**)malloc(sizeof(char) * 1024*6);
+  char** original = (char**)malloc(sizeof(char) * 1024*8);
   //read hashes and salt from infile
   for(int i = 0; i < 1024; i++){
     char* salt = new char[64];
-    char* hash = new char[6];
+    char* hash = new char[8];
     fscanf(infile, "%s %s", salt, hash);
     uint32_t hash_inp = strtol(hash, NULL, 16);  
     uint32_t Hash = ((hash_inp>>24)&0xff) | // move byte 3 to byte 0
