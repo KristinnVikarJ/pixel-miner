@@ -49,6 +49,7 @@ namespace ConsoleApp3
                 Proxy = webProxy
             };
             HttpClient c = new HttpClient(httpClientHandler);
+            c.Timeout = TimeSpan.FromSeconds(5);
             HttpClient c1 = new HttpClient();
             int FailCount = 0;
             while (true)
@@ -78,7 +79,7 @@ namespace ConsoleApp3
                     FailCount += 1;
                     if (FailCount >= 5)
                     {
-                        Console.WriteLine("Killed Thread: " + proxy);
+                        Console.WriteLine("Killed Thread (Sender): " + proxy);
                         Thread.Sleep(2000);
                     }
                 }
@@ -103,6 +104,7 @@ namespace ConsoleApp3
                 Proxy = webProxy
             };
             HttpClient c = new HttpClient(httpClientHandler);
+            c.Timeout = TimeSpan.FromSeconds(5);
             DrawData drawData = new DrawData();
             bool Finished = true;
             int FailCount = 0;
@@ -112,9 +114,6 @@ namespace ConsoleApp3
                 {
                     try
                     {
-                        Stopwatch stopwatch = new Stopwatch();
-                        stopwatch.Start();
-                        Console.WriteLine($"drawing at x:{drawData.pos.X.ToString()} y:{drawData.pos.Y.ToString()} color:{drawData.color}");
                         var parameters = new Dictionary<string, string> { { "action", "paint" },
                             { "team", "42" },
                             { "x", drawData.pos.X.ToString() },
@@ -124,10 +123,10 @@ namespace ConsoleApp3
                             };
                         var data = new FormUrlEncodedContent(parameters);
                         data.Headers.Add("Cookie", drawData.session);
+                        Console.WriteLine($"drawing at x:{drawData.pos.X.ToString()} y:{drawData.pos.Y.ToString()} color:{drawData.color}");
                         var data2 = await c.PostAsync("http://challs.xmas.htsp.ro:3002/api", data);
-                        stopwatch.Stop();
                         string p = await data2.Content.ReadAsStringAsync();
-                        //Console.WriteLine(p);
+                        Console.WriteLine("done");
                         if (p == "You haven't POSTed with action=get_work first!")
                         {
                             Console.WriteLine("session got invalidated, refreshing");
@@ -144,12 +143,12 @@ namespace ConsoleApp3
                         }
                         FailCount = 0;
                     }
-                    catch {
+                    catch (Exception e){
                         Finished = true;
                         FailCount += 1;
                         if(FailCount >= 5)
                         {
-                            Console.WriteLine("Killed Thread: " + proxy);
+                            Console.WriteLine("Killed Thread (Painter): " + proxy);
                             Thread.Sleep(2000);
                         }
                     }
@@ -167,6 +166,7 @@ namespace ConsoleApp3
                 Thread.Sleep(50);
                 if (PostQueue.Count < 30)
                 {
+                    Console.WriteLine("Getting Queue");
                     try
                     {
                         var data2 = await c.GetAsync("https://piebot.xyz/ctf/pixels/get");
@@ -229,7 +229,7 @@ namespace ConsoleApp3
                 }
                 else
                 {
-                    Thread t3 = new Thread(() => WorkerThread(proxy));
+                    Thread t3 = new Thread(() => PosterThread(proxy));
                     t3.Start();
                 }
                 current += 1;

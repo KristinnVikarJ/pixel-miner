@@ -1,32 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Kristinn\\Desktop\\PAINT\\Sender\\ConsoleApp3\\ConsoleApp3.csproj": {}
+    "C:\\Users\\Kristinn\\Desktop\\pixel-miner\\Sender\\ConsoleApp3\\ConsoleApp3.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Kristinn\\Desktop\\PAINT\\Sender\\ConsoleApp3\\ConsoleApp3.csproj": {
+    "C:\\Users\\Kristinn\\Desktop\\pixel-miner\\Sender\\ConsoleApp3\\ConsoleApp3.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Kristinn\\Desktop\\PAINT\\Sender\\ConsoleApp3\\ConsoleApp3.csproj",
+        "projectUniqueName": "C:\\Users\\Kristinn\\Desktop\\pixel-miner\\Sender\\ConsoleApp3\\ConsoleApp3.csproj",
         "projectName": "ConsoleApp3",
-        "projectPath": "C:\\Users\\Kristinn\\Desktop\\PAINT\\Sender\\ConsoleApp3\\ConsoleApp3.csproj",
+        "projectPath": "C:\\Users\\Kristinn\\Desktop\\pixel-miner\\Sender\\ConsoleApp3\\ConsoleApp3.csproj",
         "packagesPath": "C:\\Users\\Kristinn\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Kristinn\\Desktop\\PAINT\\Sender\\ConsoleApp3\\obj\\",
+        "outputPath": "C:\\Users\\Kristinn\\Desktop\\pixel-miner\\Sender\\ConsoleApp3\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Kristinn\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net5.0"
+          "net6.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net5.0": {
-            "targetAlias": "net5.0",
+          "net6.0": {
+            "targetAlias": "net6.0",
             "projectReferences": {}
           }
         },
@@ -37,8 +37,8 @@
         }
       },
       "frameworks": {
-        "net5.0": {
-          "targetAlias": "net5.0",
+        "net6.0": {
+          "targetAlias": "net6.0",
           "dependencies": {
             "Newtonsoft.Json": {
               "target": "Package",
@@ -55,12 +55,23 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.NETCore.App.Host.linux-x64",
+              "version": "[6.0.1, 6.0.1]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.404\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "ubuntu.20.04-x64": {
+          "#import": []
         }
       }
     }

@@ -1,0 +1,17 @@
+C:\Users\Kristinn\Desktop\pixel-miner\Sender\ConsoleApp3\bin\x64\Release\net6.0\ConsoleApp3.exe
+C:\Users\Kristinn\Desktop\pixel-miner\Sender\ConsoleApp3\bin\x64\Release\net6.0\ConsoleApp3.deps.json
+C:\Users\Kristinn\Desktop\pixel-miner\Sender\ConsoleApp3\bin\x64\Release\net6.0\ConsoleApp3.runtimeconfig.json
+C:\Users\Kristinn\Desktop\pixel-miner\Sender\ConsoleApp3\bin\x64\Release\net6.0\ConsoleApp3.dll
+C:\Users\Kristinn\Desktop\pixel-miner\Sender\ConsoleApp3\bin\x64\Release\net6.0\ref\ConsoleApp3.dll
+C:\Users\Kristinn\Desktop\pixel-miner\Sender\ConsoleApp3\bin\x64\Release\net6.0\ConsoleApp3.pdb
+C:\Users\Kristinn\Desktop\pixel-miner\Sender\ConsoleApp3\bin\x64\Release\net6.0\Newtonsoft.Json.dll
+C:\Users\Kristinn\Desktop\pixel-miner\Sender\ConsoleApp3\obj\x64\Release\net6.0\ConsoleApp3.csproj.AssemblyReference.cache
+C:\Users\Kristinn\Desktop\pixel-miner\Sender\ConsoleApp3\obj\x64\Release\net6.0\ConsoleApp3.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Kristinn\Desktop\pixel-miner\Sender\ConsoleApp3\obj\x64\Release\net6.0\ConsoleApp3.AssemblyInfoInputs.cache
+C:\Users\Kristinn\Desktop\pixel-miner\Sender\ConsoleApp3\obj\x64\Release\net6.0\ConsoleApp3.AssemblyInfo.cs
+C:\Users\Kristinn\Desktop\pixel-miner\Sender\ConsoleApp3\obj\x64\Release\net6.0\ConsoleApp3.csproj.CoreCompileInputs.cache
+C:\Users\Kristinn\Desktop\pixel-miner\Sender\ConsoleApp3\obj\x64\Release\net6.0\ConsoleApp3.csproj.CopyComplete
+C:\Users\Kristinn\Desktop\pixel-miner\Sender\ConsoleApp3\obj\x64\Release\net6.0\ConsoleApp3.dll
+C:\Users\Kristinn\Desktop\pixel-miner\Sender\ConsoleApp3\obj\x64\Release\net6.0\ref\ConsoleApp3.dll
+C:\Users\Kristinn\Desktop\pixel-miner\Sender\ConsoleApp3\obj\x64\Release\net6.0\ConsoleApp3.pdb
+C:\Users\Kristinn\Desktop\pixel-miner\Sender\ConsoleApp3\obj\x64\Release\net6.0\ConsoleApp3.genruntimeconfig.cache

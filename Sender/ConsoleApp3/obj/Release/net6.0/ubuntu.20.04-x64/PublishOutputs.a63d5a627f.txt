@@ -1,0 +1,6 @@
+C:\Users\Kristinn\Desktop\pixel-miner\Sender\ConsoleApp3\bin\Release\net6.0\ubuntu.20.04-x64\publish\ConsoleApp3
+C:\Users\Kristinn\Desktop\pixel-miner\Sender\ConsoleApp3\bin\Release\net6.0\ubuntu.20.04-x64\publish\ConsoleApp3.dll
+C:\Users\Kristinn\Desktop\pixel-miner\Sender\ConsoleApp3\bin\Release\net6.0\ubuntu.20.04-x64\publish\ConsoleApp3.deps.json
+C:\Users\Kristinn\Desktop\pixel-miner\Sender\ConsoleApp3\bin\Release\net6.0\ubuntu.20.04-x64\publish\ConsoleApp3.runtimeconfig.json
+C:\Users\Kristinn\Desktop\pixel-miner\Sender\ConsoleApp3\bin\Release\net6.0\ubuntu.20.04-x64\publish\ConsoleApp3.pdb
+C:\Users\Kristinn\Desktop\pixel-miner\Sender\ConsoleApp3\bin\Release\net6.0\ubuntu.20.04-x64\publish\Newtonsoft.Json.dll
