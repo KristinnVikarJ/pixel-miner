@@ -7,6 +7,7 @@ using System.Diagnostics;
 using Newtonsoft.Json;
 using System.IO;
 using System.Text;
+using System.Security.Cryptography;
 
 namespace ConsoleApp2
 {
@@ -54,14 +55,17 @@ namespace ConsoleApp2
                 AllowAutoRedirect = false,
             };
             HttpClient c = new HttpClient(httpClientHandler);
+            StreamReader sr = null;
+            MD5 md5 = MD5.Create();
             while (true)
             {
                 if (workQueue.Count < 20)
                 {
+                    string content = "";
                     try
                     {
                         var data2 = await c.GetAsync("https://piebot.xyz/ctf/pixels/getwork");
-                        string content = await data2.Content.ReadAsStringAsync();
+                        content = await data2.Content.ReadAsStringAsync();
                         List<WorkData> retData = JsonConvert.DeserializeObject<List<WorkData>>(content);
 
                         if (File.Exists("input.txt"))
@@ -71,15 +75,29 @@ namespace ConsoleApp2
 
                         if (File.Exists("outfile.txt"))
                         {
-                            File.Delete("outfile.txt");
+                            bool Finished = false;
+                            while (!Finished)
+                            {
+                                try
+                                {
+                                    File.Delete("outfile.txt");
+                                    Finished = true;
+                                }
+                                catch
+                                {
+                                    Thread.Sleep(100);
+                                }
+                            }
                         }
 
                         StreamWriter sw = new StreamWriter("input.txt");
                         Dictionary<string, string> hashToSession = new Dictionary<string, string>();
+                        Dictionary<string, string> hashToSalt = new Dictionary<string, string>();
                         foreach (WorkData workData in retData)
                         {
                             sw.WriteLine(workData.salt + " " + workData.target);
                             hashToSession[workData.target] = workData.session;
+                            hashToSalt[workData.target] = workData.salt;
                         }
                         sw.Flush();
                         sw.Close();
@@ -97,16 +115,27 @@ namespace ConsoleApp2
                         while (!File.Exists("outfile.txt"))
                             Thread.Sleep(5);
 
-                        StreamReader sr = new StreamReader("outfile.txt");
+                        sr = new StreamReader("outfile.txt");
                         while (!sr.EndOfStream)
                         {
                             string lineIn = sr.ReadLine();
                             string[] parts = lineIn.Split(" ");
-                            sendData.Add(new FinishData()
+                            if (hashToSession.ContainsKey(parts[0]))
                             {
-                                session = hashToSession[parts[0]],
-                                pow = parts[1]
-                            });
+                                string comp = BitConverter.ToString(md5.ComputeHash(Encoding.ASCII.GetBytes(hashToSalt[parts[0]] + parts[1]))).Replace("-", "").ToLower();
+                                if (comp.StartsWith(parts[0]))
+                                {
+                                    sendData.Add(new FinishData()
+                                    {
+                                        session = hashToSession[parts[0]],
+                                        pow = parts[1]
+                                    });
+                                }
+                                else
+                                {
+                                    Console.WriteLine($"Mismatch: {hashToSalt[parts[0]]} + {parts[1]} = {comp.Substring(0, 6)}, not {parts[0]}");
+                                }
+                            }
                         }
                         sr.Close();
 
@@ -117,7 +146,9 @@ namespace ConsoleApp2
                     }
                     catch
                     {
-                        Thread.Sleep(100);
+                        Console.WriteLine(content);
+                        sr?.Close();
+                        Thread.Sleep(1000);
                     }
                 }
                 else
